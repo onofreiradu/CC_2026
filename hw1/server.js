@@ -26,7 +26,26 @@ const server = http.createServer(async (req, res) => {
             res.writeHead(200);
             res.end(JSON.stringify(result.rows));
         } 
-        
+        else if (req.method === 'GET' && idMatch) {
+            const id = idMatch[1]; 
+            
+            try {
+                const result = await client.query('SELECT * FROM tasks WHERE id = $1', [id]);
+                
+                if (result.rowCount === 0) {
+                   
+                    res.writeHead(404);
+                    res.end(JSON.stringify({ error: 'Sarcina nu a fost gasita' }));
+                } else {
+                    
+                    res.writeHead(200);
+                    res.end(JSON.stringify(result.rows[0]));
+                }
+            } catch (err) {
+                res.writeHead(500);
+                res.end(JSON.stringify({ error: 'Eroare interna de server' }));
+            }
+        }
        
         else if (req.method === 'POST' && req.url === '/tasks') {
             let body = '';
