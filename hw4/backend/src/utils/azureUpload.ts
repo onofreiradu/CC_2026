@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { randomBytes } from 'node:crypto';
 
