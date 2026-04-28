@@ -21,8 +21,9 @@ jobs:
         run: |
           cd hw4/backend
           npm install
-          # Generăm folderul dist chiar dacă sunt erori de tipare (warning-uri)
-          npx tsc --skipLibCheck --noEmitOnError false || true
+          npx tsc
+          # Ștergem node_modules înainte de upload ca să fie pachetul mic (sub 1MB)
+          rm -rf node_modules
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
